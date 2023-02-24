@@ -6,7 +6,7 @@ from user.models import User
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ('title',)
+        fields = ('id','title',)
 
 
 class PostListSerializer(serializers.ModelSerializer):
@@ -16,7 +16,14 @@ class PostListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = ('id' ,'slug' ,'title' , 'author' , 'img' , 'categories','date_published')
-        
+
+
+class PostCreateSerializer(serializers.ModelSerializer):
+    author = serializers.PrimaryKeyRelatedField(read_only=True)
+    class Meta:
+        model = Post
+        fields = ('slug' ,'title' , 'author' , 'img' , 'categories',)
+           
         
 class PostDetailSerializer(serializers.HyperlinkedModelSerializer):
     categories = CategorySerializer(many=True)

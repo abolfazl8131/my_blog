@@ -12,11 +12,17 @@ class ThingPriority(models.IntegerChoices):
 
 
 class Category(models.Model):
-    slug = models.SlugField(unique=True)
+  
     title = models.CharField(max_length=50 , unique=True)
 
     def __str__(self) -> str:
         return f'{self.title}'
+
+def user_directory_path(instance, filename):
+  
+    # file will be uploaded to MEDIA_ROOT / user_<id>/<filename>
+    return 'img_{0}/{1}'.format(instance.id, filename)
+
 
 
 class Post(models.Model):
@@ -24,14 +30,17 @@ class Post(models.Model):
     title = models.CharField(max_length=100)
     date_published = models.DateTimeField(auto_now_add=True)
     last_update = models.DateTimeField(null=True)
-    img = models.ImageField()
+    img = models.ImageField(upload_to=user_directory_path , null=True)
     body = models.TextField()
     author = models.ForeignKey(Author , on_delete=models.PROTECT)
     categories = models.ManyToManyField(Category)
     show = models.BooleanField(default=True)
 
+
     def __str__(self) -> str:
         return f'{self.title}'
+    
+   
 
 class Comment(models.Model):
     user = models.ForeignKey(User , on_delete=models.PROTECT)
@@ -41,10 +50,11 @@ class Comment(models.Model):
     show = models.BooleanField(default=True)
     date_published = models.DateTimeField(auto_now_add=True , blank=True , null=True)
 
-    def verify(self):
-        
-        if self.objects.groupby(self.user,  self.post).count() != 0:
-            return False
 
     def __str__(self) -> str:
-        return f'{self.post.slug}'
+        return f'{self.post.slug}'  
+    
+    def show_filter(self):
+        return self.objects.filter(show=True)
+    
+   

@@ -1,4 +1,4 @@
-from .views import PostListViewSet , PostDetailViewSet , CommentViewSet , CommentDetailViewSet , CommentDeleteAPIView
+from .views import PostListViewSet , PostDetailViewSet , CommentViewSet , CommentDetailViewSet , CommentDeleteAPIView,PostCreateAPIView,GetCategoryAPIView
 from django.urls import path , include
 from rest_framework.routers import DefaultRouter
 # Create a router and register our viewsets with it.
@@ -12,7 +12,9 @@ urlpatterns = [
 
     path('', include(router.urls)),
   
-    path('comment/delete/<int:pk>/' , CommentDeleteAPIView.as_view( http_method_names = ['delete']))
+    path('comment/delete/<int:pk>/' , CommentDeleteAPIView.as_view( http_method_names = ['delete'])),
+    path('new-post/' , PostCreateAPIView.as_view()),
+    path('categories/all/' , GetCategoryAPIView.as_view() )
     
     
 ] 

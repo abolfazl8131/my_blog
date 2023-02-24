@@ -10,7 +10,12 @@ class AuthorSerializer(serializers.ModelSerializer):
     user = UserSerializer()
     class Meta:
         model = Author
-        fields = ('user' , )
+        fields = ('user' , 'description' , 'image')
+
+class AuthorUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Author
+        fields = ('description' , 'image')
 
 from django.contrib.auth import get_user_model # If used custom user model
 
@@ -26,6 +31,9 @@ class UserRegisterSerializer(serializers.ModelSerializer):
         user = UserModel.objects.create_user(
             username=validated_data['username'],
             password=validated_data['password'],
+            first_name = validated_data['first_name'],
+            last_name = validated_data['last_name'],
+            email = validated_data['email']
         )
 
         return user
@@ -33,7 +41,13 @@ class UserRegisterSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserModel
         # Tuple of serialized model fields (see link [2])
-        fields = ( "username", "password", )
+        fields = ( "username", "password", 'first_name' , 'last_name' , 'email')
+
+class UserUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['first_name' , 'last_name']
+
 
 from django.contrib.auth import authenticate
 

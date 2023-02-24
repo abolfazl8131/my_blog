@@ -3,14 +3,20 @@ import threading
 import matplotlib.pyplot as plt
 
 def x(n):
+    
     b = 0
     for i in range(n):
         b += i
     return b
 
+
+
 def y(n):
 
-    return n**2
+    b = 0
+    for i in range(n):
+        b += i
+    return b
 
 if __name__ == '__main__':
     t = []
@@ -30,7 +36,7 @@ if __name__ == '__main__':
         # t2.join()
 
         x(10000000)
-        y(100)
+        y(10000000)
     
         end = time.time()
 

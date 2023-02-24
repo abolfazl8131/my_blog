@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-b&jnv(-3^cz4dmudaw2ujo407_lm#idkv9)wxqs9+l1sxjge!^
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'django_filters',
     'blog',
     'user',
-    'rules'
+    'rules',
+    'drf_yasg'
 ]
 
 MIDDLEWARE = [
@@ -81,9 +82,9 @@ REST_FRAMEWORK = {
 }
 WSGI_APPLICATION = 'myblog.wsgi.application'
 
-SESSION_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = False
 
-CSRF_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = False
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases

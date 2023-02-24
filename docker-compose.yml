@@ -1,0 +1,22 @@
+version: "3.3"
+
+services:
+  db:
+    image: keinos/sqlite3:latest
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    
+
+  web:
+    build: .
+    command: sh -c "python3 manage.py runserver 0.0.0.0:8081 && python3 manage.py migrate"
+    ports:
+      - "8081:8081"
+    volumes:
+      - .:/myblog
+
+    depends_on:
+      - db
+    
+   
+
