@@ -15,6 +15,11 @@ class Category(models.Model):
   
     title = models.CharField(max_length=50 , unique=True)
 
+    class Meta:
+        verbose_name = 'موضوع'
+       
+        verbose_name_plural = "موضوعات"
+
     def __str__(self) -> str:
         return f'{self.title}'
 
@@ -26,16 +31,19 @@ def user_directory_path(instance, filename):
 
 
 class Post(models.Model):
-    slug = models.SlugField()
-    title = models.CharField(max_length=100)
-    date_published = models.DateTimeField(auto_now_add=True)
-    last_update = models.DateTimeField(null=True)
-    img = models.ImageField(upload_to=user_directory_path , null=True)
-    body = models.TextField()
-    author = models.ForeignKey(Author , on_delete=models.PROTECT)
-    categories = models.ManyToManyField(Category)
-    show = models.BooleanField(default=True)
+    slug = models.SlugField(verbose_name='اسلاگ')
+    title = models.CharField(max_length=100 , verbose_name='موضوع')
+    date_published = models.DateTimeField(auto_now_add=True  , verbose_name='تاریخ انتشار')
+    last_update = models.DateTimeField(null=True , verbose_name='اخرین بروز رسانی')
+    img = models.ImageField(upload_to=user_directory_path , null=True, verbose_name='عکس')
+    body = models.TextField(verbose_name='بدنه')
+    author = models.ForeignKey(Author , on_delete=models.PROTECT , verbose_name='نویسنده')
+    categories = models.ManyToManyField(Category  , verbose_name='موضوعات')
+    show = models.BooleanField(default=True , verbose_name='نمایش')
 
+    class Meta:
+        verbose_name = 'پست'
+        verbose_name_plural = "پستها"
 
     def __str__(self) -> str:
         return f'{self.title}'
@@ -43,13 +51,16 @@ class Post(models.Model):
    
 
 class Comment(models.Model):
-    user = models.ForeignKey(User , on_delete=models.PROTECT)
-    body = models.TextField()
-    post = models.ForeignKey(Post,  on_delete=models.PROTECT)
-    rating = models.IntegerField(default=None, choices=ThingPriority.choices,null=True)
-    show = models.BooleanField(default=True)
-    date_published = models.DateTimeField(auto_now_add=True , blank=True , null=True)
+    user = models.ForeignKey(User , on_delete=models.PROTECT , verbose_name='کاربر')
+    body = models.TextField(verbose_name='متن ')
+    post = models.ForeignKey(Post,  on_delete=models.PROTECT , verbose_name='پست مربوطه')
+    rating = models.IntegerField(default=None, choices=ThingPriority.choices,null=True , verbose_name='امتیاز')
+    show = models.BooleanField(default=True  , verbose_name='نمایش')
+    date_published = models.DateTimeField(auto_now_add=True , blank=True , null=True , verbose_name='تاریخ انتشار')
 
+    class Meta:
+        verbose_name = 'کامنت'
+        verbose_name_plural= 'کامنت ها'
 
     def __str__(self) -> str:
         return f'{self.post.slug}'  

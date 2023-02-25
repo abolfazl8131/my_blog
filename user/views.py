@@ -9,6 +9,8 @@ from django.contrib.auth import login, logout
 from permissons.permissons import IsAuthenticatedAndOwner
 from rest_framework import status
 from .models import Author
+from rest_framework import viewsets
+from .serializers import AuthorImageSerializer
 # Create your views here.
 from django.http import JsonResponse
 
@@ -52,6 +54,17 @@ class ProfileUpdateAPIView(UpdateAPIView):
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK)
 
+class ProfileImageViewSet(UpdateAPIView):
+    permission_classes = [permissions.IsAuthenticated , ]
+    serializer_class = AuthorImageSerializer
+
+    def update(self, request, *args, **kwargs):
+       file = request.FILES
+       a = Author.objects.get(user=request.user.id)
+       a.image = file
+       a.save()
+       return Response('ok' , status=200)
+    
 
 class SessionAuthAPIView(CreateAPIView):
     #authentication_classes = (SessionAuthentication, MyBasicAuthentication)

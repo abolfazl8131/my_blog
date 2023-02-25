@@ -8,6 +8,7 @@ class UserSerializer(serializers.ModelSerializer):
         
 class AuthorSerializer(serializers.ModelSerializer):
     user = UserSerializer()
+    image = serializers.FileField()
     class Meta:
         model = Author
         fields = ('user' , 'description' , 'image')
@@ -15,7 +16,10 @@ class AuthorSerializer(serializers.ModelSerializer):
 class AuthorUpdateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Author
-        fields = ('description' , 'image')
+        fields = ('description' ,)
+
+class AuthorImageSerializer(serializers.Serializer):
+        image = serializers.ImageField()
 
 from django.contrib.auth import get_user_model # If used custom user model
 
