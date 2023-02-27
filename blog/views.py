@@ -38,31 +38,16 @@ class PostUpdateAPIView(generics.UpdateAPIView):
 
 class PostListViewSet(viewsets.ReadOnlyModelViewSet):
     model = Post
-    queryset = Post.objects.all()
+    queryset = Post.published.all()
     serializer_class = PostListSerializer
     filter_backends = [ filters.SearchFilter]
     search_fields = ['title' , 'body','categories__title']
-
-    def get_queryset(self):
-    
-       
-        assert self.queryset is not None, (
-            "'%s' should either include a `queryset` attribute, "
-            "or override the `get_queryset()` method."
-            % self.__class__.__name__
-        )
-
-        queryset = self.queryset
-        if isinstance(queryset, QuerySet):
-            # Ensure queryset is re-evaluated on each request.
-            queryset = queryset.filter(show=True)
-        return queryset
 
 
 class PostDetailViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = PostDetailSerializer
     lookup_field = 'slug'
-    queryset = Post.objects.filter(show=True)
+    queryset = Post.published.all()
 
 
 class CommentViewSet(viewsets.ModelViewSet):
@@ -96,11 +81,12 @@ class CommentDetailViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = CommentDetailSerializer
     permission_classes = (permissions.AllowAny , )
     http_method_names = ['get']
-    #lookup_field = 'post__slug'
+    lookup_field = 'slug'
    
     def get_queryset(self , **kwargs):
         slug = self.request.GET.get('slug')
-        if Post.objects.get(slug=slug).show == True:
+        
+        if Post.published.get(slug=slug):
            
             qs = Comment.objects.filter(post__slug=slug)
             return qs
@@ -110,4 +96,4 @@ class CommentDeleteAPIView(generics.DestroyAPIView):
    
     permission_classes = (IsAuthenticatedAndOwner , )
     lookup_field = 'pk'
-    queryset = Comment.objects.all()
+    queryset = Comment.published.all()

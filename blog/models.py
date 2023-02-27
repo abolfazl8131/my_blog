@@ -1,6 +1,6 @@
 from django.db import models
 from user.models import Author , User
-
+from .managers import PublishedManager
 # Create your models here.
 class ThingPriority(models.IntegerChoices):
     LOW = 1, 'Low'
@@ -41,6 +41,10 @@ class Post(models.Model):
     categories = models.ManyToManyField(Category  , verbose_name='موضوعات')
     show = models.BooleanField(default=True , verbose_name='نمایش')
 
+    objects = models.Manager()
+
+    published = PublishedManager()
+
     class Meta:
         verbose_name = 'پست'
         verbose_name_plural = "پستها"
@@ -58,14 +62,16 @@ class Comment(models.Model):
     show = models.BooleanField(default=True  , verbose_name='نمایش')
     date_published = models.DateTimeField(auto_now_add=True , blank=True , null=True , verbose_name='تاریخ انتشار')
 
+    objects = models.Manager()
+    published = PublishedManager()
+
     class Meta:
         verbose_name = 'کامنت'
         verbose_name_plural= 'کامنت ها'
 
     def __str__(self) -> str:
-        return f'{self.post.slug}'  
+        return f'{self.post.slug} - {self.user.username}'  
     
-    def show_filter(self):
-        return self.objects.filter(show=True)
+    
     
    

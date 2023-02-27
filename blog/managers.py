@@ -1,8 +1,6 @@
 from django.db import models
 
-class PostManager(models.Manager):
+class PublishedManager(models.Manager):
       
     def get_queryset(self , *args,  **kwargs):
-        queryset = super().get_queryset(*args , **kwargs)
-        queryset = queryset.filter(show = True)
-        return queryset    
+        return super(PublishedManager , self).get_queryset().filter(show=True)
