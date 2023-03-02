@@ -37,12 +37,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',
-    'django_filters',
+    'rest_framework', 
+    'django_filters', 
     'blog',
     'user',
     'rules',
-    'drf_yasg'
+    "taggit",
+    'drf_yasg',
+   
 ]
 
 MIDDLEWARE = [
@@ -82,10 +84,13 @@ REST_FRAMEWORK = {
 }
 WSGI_APPLICATION = 'myblog.wsgi.application'
 
-SESSION_COOKIE_SECURE = False
+SESSION_COOKIE_SECURE = True
 
 CSRF_COOKIE_SECURE = False
 
+
+
+CSRF_TRUSTED_ORIGINS = ['http://0.0.0.0:8081/']
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 

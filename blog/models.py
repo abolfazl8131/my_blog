@@ -1,8 +1,10 @@
 from django.db import models
 from user.models import Author , User
 from .managers import PublishedManager
+from taggit.managers import TaggableManager
 # Create your models here.
 class ThingPriority(models.IntegerChoices):
+    
     LOW = 1, 'Low'
     NR = 2, 'NotRecommended'
     Normal = 3, 'Normal'
@@ -16,6 +18,7 @@ class Category(models.Model):
     title = models.CharField(max_length=50 , unique=True)
 
     class Meta:
+
         verbose_name = 'موضوع'
        
         verbose_name_plural = "موضوعات"
@@ -31,7 +34,7 @@ def user_directory_path(instance, filename):
 
 
 class Post(models.Model):
-    slug = models.SlugField(verbose_name='اسلاگ')
+    slug = models.SlugField(verbose_name='اسلاگ' , unique=True)
     title = models.CharField(max_length=100 , verbose_name='موضوع')
     date_published = models.DateTimeField(auto_now_add=True  , verbose_name='تاریخ انتشار')
     last_update = models.DateTimeField(null=True , verbose_name='اخرین بروز رسانی')
@@ -40,11 +43,14 @@ class Post(models.Model):
     author = models.ForeignKey(Author , on_delete=models.PROTECT , verbose_name='نویسنده')
     categories = models.ManyToManyField(Category  , verbose_name='موضوعات')
     show = models.BooleanField(default=True , verbose_name='نمایش')
+   
 
     objects = models.Manager()
-
+   
     published = PublishedManager()
-
+    #tags = TaggableManager()
+   
+    
     class Meta:
         verbose_name = 'پست'
         verbose_name_plural = "پستها"
