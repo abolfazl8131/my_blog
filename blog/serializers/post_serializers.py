@@ -30,19 +30,18 @@ class PostCreateSerializer(serializers.ModelSerializer):
            
 
 
-class PostDetailSerializer(serializers.HyperlinkedModelSerializer):
+class PostDetailSerializer(serializers.ModelSerializer):
     categories = CategorySerializer(many=True)
     author = AuthorSerializer()
     id = serializers.IntegerField(write_only=True)
+    title = serializers.CharField()
+    hits_count = serializers.SerializerMethodField()
     class Meta:
         model = Post
         
-        fields = ('id','title' , 'body' , 'date_published', 'last_update' , 'categories' , 'img','author' , 'slug')
+        fields = ('id', 'title' , 'body' , 'date_published', 'last_update' , 'categories' , 'img','author' , 'slug','hits_count')
 
-        lookup_field = 'slug'
-
-        extra_kwargs = {
-
-            'url': {'lookup_field': 'slug'}
-        }
+    def get_hits_count(self,  instance):
+        return instance.hits.count()
+        
 

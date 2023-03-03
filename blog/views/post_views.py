@@ -79,12 +79,14 @@ class PostUpdateAPIView(generics.UpdateAPIView):
         self.perform_update(serializer)
         return Response(serializer.data)
 
+
 class PostListViewSet(viewsets.ReadOnlyModelViewSet):
     model = Post
     queryset = Post.published.all()
     serializer_class = PostListSerializer
     filter_backends = [ filters.SearchFilter]
     search_fields = ['title' , 'body','categories__title']
+  
 
 class FilterPostWithCategory(generics.ListAPIView):
    
@@ -93,10 +95,28 @@ class FilterPostWithCategory(generics.ListAPIView):
     def get_queryset(self):
         return Post.published.filter(categories__title__contains= self.kwargs.get('category'))
 
+from django.http import JsonResponse
 
-
-class PostDetailViewSet(viewsets.ReadOnlyModelViewSet):
+class PostDetailAPIView(generics.RetrieveAPIView):
     serializer_class = PostDetailSerializer
-    lookup_field = 'slug'
-    queryset = Post.published.all()
+    
+    def get(self , request):
+        
+        slug = self.request.GET.get('slug')
+       
+        try:
+            article = Post.published.get(slug=slug)
+
+            ip_addr = self.request.ip_address
+
+            if ip_addr not in article.hits.all():
+                
+                article.hits.add(ip_addr)
+        except:
+            raise Exception('there is a problem when opening the article')
+        
+        serializer = PostDetailSerializer(article)
+       
+        return JsonResponse(serializer.data)
+
 

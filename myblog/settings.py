@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'user',
     'rules',
     "taggit",
+    'blogBI',
     'drf_yasg',
    
 ]
@@ -55,6 +56,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'blogBI.middlewares.SaveIPAddressMiddleware'
 ]
 
 ROOT_URLCONF = 'myblog.urls'
@@ -77,6 +79,7 @@ TEMPLATES = [
 
 REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+    
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.BasicAuthentication',
         'rest_framework.authentication.SessionAuthentication',

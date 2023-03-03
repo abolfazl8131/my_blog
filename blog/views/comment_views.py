@@ -46,12 +46,13 @@ class CommentDetailViewSet(viewsets.ReadOnlyModelViewSet):
     lookup_field = 'slug'
  
     def get_queryset(self , **kwargs):
+
         slug = self.request.GET.get('slug')
         
-
         if Post.published.filter(slug=slug).exists():
-           
+        
             qs = Comment.published.filter(post__slug=slug)
+            
             return qs
 
 

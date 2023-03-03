@@ -1,4 +1,4 @@
-from blog.views.post_views import PostListViewSet , PostDetailViewSet ,PostCreateAPIView,GetCategoryAPIView , PostUpdateAPIView,FilterPostWithCategory
+from blog.views.post_views import PostListViewSet , PostDetailAPIView ,PostCreateAPIView,GetCategoryAPIView , PostUpdateAPIView,FilterPostWithCategory
 from blog.views.comment_views import CommentDeleteAPIView , CommentDetailViewSet , CommentViewSet
 from django.urls import path , include
 from rest_framework.routers import DefaultRouter
@@ -7,9 +7,9 @@ from django.views.decorators.csrf import ensure_csrf_cookie , csrf_exempt
 
 router = DefaultRouter()
 router.register(r'posts', PostListViewSet,basename="post-list")
-router.register(r'post', PostDetailViewSet,basename="post-detail")
 router.register(r'comment-create' , CommentViewSet , basename='comment-create')
 router.register(r'comments' , CommentDetailViewSet , basename='comment-detail')
+
 urlpatterns = [
 
     path('', include(router.urls)),
@@ -18,7 +18,8 @@ urlpatterns = [
     path('new-post/' ,PostCreateAPIView.as_view()),
     path('categories/all/' , GetCategoryAPIView.as_view() ),
     path('post/<int:id>/update/' ,PostUpdateAPIView.as_view() ),
-    path('post/category/<str:category>/' , FilterPostWithCategory.as_view())
+    path('post/category/<str:category>/' , FilterPostWithCategory.as_view()),
+    path('post/' , PostDetailAPIView.as_view())
     
     
 ] 

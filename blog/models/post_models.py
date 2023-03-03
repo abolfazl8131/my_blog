@@ -1,7 +1,7 @@
 from django.db import models
 from user.models import Author
 from blog.managers import PublishedManager
-
+from blogBI.models import IPAddress
 # Create your models here.
 class ThingPriority(models.IntegerChoices):
     
@@ -43,7 +43,7 @@ class Post(models.Model):
     author = models.ForeignKey(Author , on_delete=models.PROTECT , verbose_name='نویسنده')
     categories = models.ManyToManyField(Category  , verbose_name='موضوعات')
     show = models.BooleanField(default=True , verbose_name='نمایش')
-   
+    hits = models.ManyToManyField(IPAddress , blank=True , related_name='hits' , verbose_name='ویو ها')
 
     objects = models.Manager()
    
