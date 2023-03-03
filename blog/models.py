@@ -56,7 +56,7 @@ class Post(models.Model):
         verbose_name_plural = "پستها"
 
     def __str__(self) -> str:
-        return f'{self.title}'
+        return f'{self.slug}'
     
    
 

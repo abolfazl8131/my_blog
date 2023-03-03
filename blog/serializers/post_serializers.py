@@ -7,7 +7,7 @@ from user.models import User
 
 
 class CategorySerializer(serializers.ModelSerializer):
-    id = serializers.IntegerField(write_only=True)
+  
     class Meta:
         model = Category
         fields = ('id','title',)

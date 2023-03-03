@@ -86,6 +86,14 @@ class PostListViewSet(viewsets.ReadOnlyModelViewSet):
     filter_backends = [ filters.SearchFilter]
     search_fields = ['title' , 'body','categories__title']
 
+class FilterPostWithCategory(generics.ListAPIView):
+   
+    serializer_class = PostListSerializer
+
+    def get_queryset(self):
+        return Post.published.filter(categories__title__contains= self.kwargs.get('category'))
+
+
 
 class PostDetailViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = PostDetailSerializer

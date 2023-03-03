@@ -17,6 +17,6 @@ class PostReport(models.Model):
         verbose_name_plural = 'گزارشات پست'
 
     def __str__(self) -> str:
-        return f'{self.post.title} - {self.reason}'
+        return f'{self.post.slug} - {self.reason}'
 
     

@@ -1,4 +1,4 @@
-from blog.views.post_views import PostListViewSet , PostDetailViewSet ,PostCreateAPIView,GetCategoryAPIView , PostUpdateAPIView
+from blog.views.post_views import PostListViewSet , PostDetailViewSet ,PostCreateAPIView,GetCategoryAPIView , PostUpdateAPIView,FilterPostWithCategory
 from blog.views.comment_views import CommentDeleteAPIView , CommentDetailViewSet , CommentViewSet
 from django.urls import path , include
 from rest_framework.routers import DefaultRouter
@@ -17,7 +17,8 @@ urlpatterns = [
     path('comment/delete/<int:pk>/' , CommentDeleteAPIView.as_view( http_method_names = ['delete'])),
     path('new-post/' ,PostCreateAPIView.as_view()),
     path('categories/all/' , GetCategoryAPIView.as_view() ),
-    path('post/<int:id>/update/' ,PostUpdateAPIView.as_view() )
+    path('post/<int:id>/update/' ,PostUpdateAPIView.as_view() ),
+    path('post/category/<str:category>/' , FilterPostWithCategory.as_view())
     
     
 ] 
