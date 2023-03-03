@@ -44,11 +44,12 @@ class CommentDetailViewSet(viewsets.ReadOnlyModelViewSet):
     permission_classes = (permissions.AllowAny , )
     http_method_names = ['get']
     lookup_field = 'slug'
-   
+ 
     def get_queryset(self , **kwargs):
         slug = self.request.GET.get('slug')
         
-        if Post.published.get(slug=slug):
+
+        if Post.published.filter(slug=slug).exists():
            
             qs = Comment.published.filter(post__slug=slug)
             return qs
