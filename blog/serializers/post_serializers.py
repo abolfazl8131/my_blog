@@ -24,6 +24,7 @@ class PostListSerializer(serializers.ModelSerializer):
 
 class PostCreateSerializer(serializers.ModelSerializer):
     author = serializers.PrimaryKeyRelatedField(read_only=True)
+    img = serializers.ImageField()
     class Meta:
         model = Post
         fields = ('slug' ,'title' , 'body', 'author' , 'img','categories')
@@ -36,6 +37,8 @@ class PostDetailSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(write_only=True)
     title = serializers.CharField()
     hits_count = serializers.SerializerMethodField()
+    img = serializers.ImageField()
+
     class Meta:
         model = Post
         

@@ -82,7 +82,8 @@ REST_FRAMEWORK = {
     
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
+        #'rest_framework.authentication.SessionAuthentication',
+        'blog.authentications.CsrfExemptSessionAuthentication'
     ]
 }
 WSGI_APPLICATION = 'myblog.wsgi.application'

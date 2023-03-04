@@ -98,6 +98,7 @@ class FilterPostWithCategory(generics.ListAPIView):
 from django.http import JsonResponse
 
 class PostDetailAPIView(generics.RetrieveAPIView):
+    
     serializer_class = PostDetailSerializer
     
     def get(self , request):

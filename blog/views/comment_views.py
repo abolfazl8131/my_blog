@@ -11,14 +11,13 @@ from rest_framework import generics
 from django.db.models.query import QuerySet
 from permissons.permissons import IsAuthenticatedAndOwner
 
-
-
 class CommentViewSet(viewsets.ModelViewSet):
    
     serializer_class = CommentSerializer
     queryset = Comment.objects.none()
     permission_classes = (permissions.IsAuthenticated , )
     http_method_names = ['post']
+  
 
     def perform_create(self, serializer):
 
